@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'>
+	<appender name="Spring" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="Encoding" value="UTF-8" />
+		<param name="File" value="/logs/codehome/codeHome-spring.log" />
+		<param name="Append" value="true" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d-%p %t %c - %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="codeHome" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="Encoding" value="UTF-8" />
+		<param name="File" value="/logs/codehome/codeHome.log" />
+		<param name="Append" value="true" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d-%p %t %c - %m%n" />
+		</layout>
+	</appender>
+
+
+	<appender name="errorLogger" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="Encoding" value="UTF-8" />
+		<param name="File" value="/logs/codehome/codeHome-error.log" />
+		<param name="Append" value="true" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d-%p %t %c - %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d-%p %t %c - %m%n" />
+		</layout>
+	</appender>
+
+
+	<!--通过<category></category>的定义可以将各个包中的类日志输出到不同的日志文件中 -->
+	<category name="org.springframework" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="Spring" />
+	</category>
+
+
+	<logger name="errorLogger" additivity="false">
+		<level value="ERROR" />
+		<appender-ref ref="errorLogger" />
+	</logger>
+
+	<root>
+		<level value="INFO" />
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="codeHome" />
+	</root>
+
+</log4j:configuration> 
