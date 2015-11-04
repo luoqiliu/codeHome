@@ -3,7 +3,7 @@
 <log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'>
 	<appender name="Spring" class="org.apache.log4j.DailyRollingFileAppender">
 		<param name="Encoding" value="UTF-8" />
-		<param name="File" value="/logs/codehome/codeHome-spring.log" />
+		<param name="File" value="${codeHome.log.dir}/codeHome-spring.log" />
 		<param name="Append" value="true" />
 		<param name="DatePattern" value="'.'yyyy-MM-dd" />
 		<layout class="org.apache.log4j.PatternLayout">
@@ -13,7 +13,7 @@
 
 	<appender name="codeHome" class="org.apache.log4j.DailyRollingFileAppender">
 		<param name="Encoding" value="UTF-8" />
-		<param name="File" value="/logs/codehome/codeHome.log" />
+		<param name="File" value="${codeHome.log.dir}/codeHome.log" />
 		<param name="Append" value="true" />
 		<param name="DatePattern" value="'.'yyyy-MM-dd" />
 		<layout class="org.apache.log4j.PatternLayout">
@@ -24,7 +24,7 @@
 
 	<appender name="errorLogger" class="org.apache.log4j.DailyRollingFileAppender">
 		<param name="Encoding" value="UTF-8" />
-		<param name="File" value="/logs/codehome/codeHome-error.log" />
+		<param name="File" value="${codeHome.log.dir}/codeHome-error.log" />
 		<param name="Append" value="true" />
 		<param name="DatePattern" value="'.'yyyy-MM-dd" />
 		<layout class="org.apache.log4j.PatternLayout">
@@ -53,7 +53,7 @@
 	</logger>
 
 	<root>
-		<level value="INFO" />
+		<level value="${codeHome.log.level}" />
 		<appender-ref ref="CONSOLE" />
 		<appender-ref ref="codeHome" />
 	</root>

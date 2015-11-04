@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="PassengerFreezeRule">
+  
+  <insert id="insert" parameterType="com.holydota.bean.user.PassengerFreezeRule">
+  	insert into T_PassengerFreezeRule(
+  	   TimeRange,
+	   TimeRangeUnit,
+	   ComplaintCount,
+	   FreezeTime,
+	   FreezeTimeUnit,
+	   OprId,
+	   CreateTime,
+	   Priority,
+	   CityId,
+	   IsUse,
+	   isNotVip,
+	   level,
+	   Type
+  	) 
+  	values (
+  	   #{timeRange},
+	   #{timeRangeUnit},
+	   #{complaintCount},
+	   #{freezeTime},
+	   #{freezeTimeUnit},
+	   #{oprId},
+	   #{createTime},
+	   #{priority},
+	   #{cityId},
+	   #{isUse},
+	   #{isNotVip},
+	   #{level},
+	   #{type}
+  	)
+  </insert>
+  
+  <select id="selectById" resultType="com.holydota.bean.user.PassengerFreezeRule" parameterType="int">
+  	select * from T_PassengerFreezeRule where ruleId = #{ruleId}
+  </select>
+  
+  <select id="selectAll" resultType="com.holydota.bean.user.PassengerFreezeRule" parameterType="com.holydota.bean.user.PassengerFreezeRule">
+  		select r.*, c.name as cityName, o.name as oprName
+  		from T_PassengerFreezeRule r 
+  		left join T_SysOperator o on r.oprId = o.oprId
+  		left join T_SysCity c on c.cityId = r.cityId
+  		<trim prefix="where" suffixOverrides="and">
+  			<if test="cityId!=null">r.CityId in (select cityId from T_SysCity cc where cc.CityId=#{cityId} or cc.ParenRegionId=#{cityId} or cc.ParenRegionId  in( SELECT cityId  FROM T_SysCity st WHERE st.ParenRegionId = #{cityId})) and</if>
+  		</trim>
+  		order by r.priority desc
+  </select>
+   
+   <select id="queryByIds" parameterType="int" resultType="com.holydota.bean.user.PassengerFreezeRule" >
+  		select * from T_PassengerFreezeRule where 
+  		<foreach collection="array" item="ruleId" separator="or" >
+  			ruleId = #{ruleId}
+  		</foreach>
+  		 order by priority desc
+  </select>
+   
+   <select id="queryByCity" parameterType="map" resultType="com.holydota.bean.user.PassengerFreezeRule" >
+  		select * from T_PassengerFreezeRule  
+  		<trim prefix="where" suffixOverrides="and">
+  			<if test="cityId!=null">cityId=#{cityId} and</if>
+  			<if test="cityId==null">cityId is null and</if>
+  			<if test="type!=null">type=#{type} and</if>
+  			isUse = 1 and
+  		</trim>
+  		order by priority desc
+  </select>
+   
+   
+   <delete id="deleteById" parameterType="int">
+   		delete from T_PassengerFreezeRule where ruleId = #{ruleId}
+   </delete>
+
+  
+</mapper>
+

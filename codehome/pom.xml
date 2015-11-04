@@ -1,15 +1,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>MavenTest</groupId>
-	<artifactId>com.holydota.codehome</artifactId>
+	<groupId>codeHome</groupId>
+	<artifactId>com.holydota.codeHome</artifactId>
 	<packaging>war</packaging>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>codehome</name>
+	<version>1.0.0</version>
+	<name>codeHome</name>
 	<url>http://maven.apache.org</url>
 	<properties>
-		<aspectj.version>1.7.4</aspectj.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<!-- jre版本 -->
+		<jreversion>1.7</jreversion>
 		<springversion>3.1.1.RELEASE</springversion>
 		<junitversion>3.8.1</junitversion>
 	</properties>
@@ -149,6 +150,34 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>3.2.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<version>1.2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-pool</groupId>
+			<artifactId>commons-pool</artifactId>
+			<version>1.5.5</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>1.2.2</version>
+		</dependency>
+
+		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
 			<version>1.1</version>
@@ -170,26 +199,6 @@
 			<version>1.7.5</version>
 		</dependency>
 		<dependency>
-			<groupId>com.kyo</groupId>
-			<artifactId>servicelocator</artifactId>
-			<version>1.2.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjrt</artifactId>
-			<version>${aspectj.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjweaver</artifactId>
-			<version>${aspectj.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjtools</artifactId>
-			<version>${aspectj.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>com.google.zxing</groupId>
 			<artifactId>core</artifactId>
 			<version>3.1.0</version>
@@ -203,6 +212,11 @@
 			<groupId>com.sparkjava</groupId>
 			<artifactId>spark-core</artifactId>
 			<version>2.3</version>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.25</version>
 		</dependency>
 	</dependencies>
 	<repositories>
@@ -218,15 +232,99 @@
 	</repositories>
 
 	<build>
-		<finalName>codehome</finalName>
+		<finalName>codeHome-${env}</finalName>
+		<plugins>
+			<!-- 定义打包jdk -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>${jreversion}</source>
+					<target>${jreversion}</target>
+					<verbose>true</verbose>
+					<encoding>${project.build.sourceEncoding}</encoding>
+					<compilerArguments>
+						<sourcepath>${project.build.sourceDirectory}</sourcepath>
+						<!-- show all debug info -->
+						<g />
+					</compilerArguments>
+				</configuration>
+			</plugin>
+
+			<!-- package的时候，单独打出source包出来 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.2.1</version>
+				<configuration>
+					<include>${project.build.sourceDirectory}</include>
+				</configuration>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- 资源编码 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.7</version>
+				<configuration>
+					<encoding>${project.build.sourceEncoding}</encoding>
+				</configuration>
+			</plugin>
+		</plugins>
+		<filters>
+			<filter>src/main/config/${env}/${env}.properties</filter>
+		</filters>
 		<resources>
 			<resource>
 				<directory>src/main/java</directory>
 				<filtering>false</filtering>
 				<includes>
+					<!-- service ibatis log 等配置 -->
 					<include>*.xml</include>
+					<!-- sqlmap -->
+					<include>**/*.xml</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>*.properties</include>
+					<include>*.conf</include>
 				</includes>
 			</resource>
 		</resources>
 	</build>
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<env>dev</env>
+			</properties>
+			<!-- 默认包为dev包 -->
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<profile>
+			<id>test</id>
+			<properties>
+				<env>test</env>
+			</properties>
+		</profile>
+		<profile>
+			<id>online</id>
+			<properties>
+				<env>online</env>
+			</properties>
+		</profile>
+	</profiles>
 </project>

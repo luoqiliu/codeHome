@@ -16,7 +16,6 @@
 
 	<mvc:annotation-driven />
 	<context:annotation-config />
-	<aop:aspectj-autoproxy />
 	<context:component-scan base-package="com.holydota" />
 
 	<bean
@@ -24,10 +23,10 @@
 		<property name="prefix" value="/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
-	<context:property-placeholder
-		location="classpath:config/*.properties,classpath:config/*.conf" />
+	<context:property-placeholder location="classpath*:*.properties,classpath*:*.conf" />
 	<bean id="localeResolver"
 		class="org.springframework.web.servlet.i18n.SessionLocaleResolver" />
 	<import resource="classpath*:services*.xml" />
+	<import resource="classpath:ibatis-dao.xml" />
 
 </beans>
