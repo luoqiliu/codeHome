@@ -27,6 +27,6 @@
 	<bean id="localeResolver"
 		class="org.springframework.web.servlet.i18n.SessionLocaleResolver" />
 	<import resource="classpath*:services*.xml" />
-	<import resource="classpath:ibatis-dao.xml" />
+	<import resource="classpath:/config/spring/ibatis-dao.xml" />
 
 </beans>
