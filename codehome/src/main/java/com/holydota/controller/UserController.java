@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.holydota.bean.user.UserInfo;
+import com.holydota.common.interceptor.auth.AuthPassport;
 import com.holydota.common.log.ILog;
 import com.holydota.common.log.LogFactory;
 import com.holydota.service.UserService;
@@ -25,10 +27,11 @@ public class UserController {
     UserService  userService;
     private ILog logger = LogFactory.getLog(UserController.class);
 
+    @AuthPassport
     @ResponseBody
-    @RequestMapping(value = "/chedan", method = RequestMethod.GET)
-    public String chedan(HttpServletRequest request, HttpServletResponse response) {
-        return userService.index();
+    @RequestMapping(value = "/getUser", method = RequestMethod.GET)
+    public UserInfo chedan(HttpServletRequest request, HttpServletResponse response) {
+        return userService.getUserByid(NumberUtils.toInt(request.getParameter("id")));
     }
 
     @ResponseBody
@@ -51,6 +54,13 @@ public class UserController {
     public ModelAndView index() {
         ModelAndView mv = new ModelAndView();
         mv.setViewName("index");
+        return mv;
+    }
+
+    @RequestMapping("login")
+    public ModelAndView login() {
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("/account/login");
         return mv;
     }
 
