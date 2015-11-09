@@ -23,48 +23,6 @@
 		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
 	</listener>
 
-	<!-- 配置JSON视图 -->
-	<bean id="mappingJacksonHttpMessageConverter"
-		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
-		<property name="supportedMediaTypes">
-			<list>
-				<value>application/json;charset=UTF-8</value>
-			</list>
-		</property>
-		<property name="objectMapper">
-			<bean class="org.codehaus.jackson.map.ObjectMapper">
-				<property name="dateFormat">
-					<bean class="java.text.SimpleDateFormat">
-						<constructor-arg index="0" type="java.lang.String"
-							value="yyyy-MM-dd HH:mm:ss" />
-					</bean>
-				</property>
-			</bean>
-		</property>
-	</bean>
-	<bean id="stringHttpMessageConverter"
-		class="org.springframework.http.converter.StringHttpMessageConverter" />
-	<bean id="requestMappingHandlerAdapter"
-		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
-		<property name="messageConverters">
-			<list>
-				<ref bean="mappingJacksonHttpMessageConverter" />
-				<ref bean="stringHttpMessageConverter" />
-			</list>
-		</property>
-	</bean>
-
-	<!-- 配置JSP视图 -->
-	<bean id="internalResourceViewResolver"
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="viewClass"
-			value="org.springframework.web.servlet.view.JstlView" />
-		<property name="prefix" value="/WEB-INF/jsp/" />
-		<property name="suffix" value=".jsp" />
-		<property name="contentType" value="text/html;charset=UTF-8" />
-		<property name="order" value="1" />
-	</bean>
-
 	<filter>
 		<filter-name>characterEncodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -80,7 +38,7 @@
 
 	<filter-mapping>
 		<filter-name>characterEncodingFilter</filter-name>
-		<url-pattern>/</url-pattern>
+		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	<!-- 核心控制器 -->
 	<servlet>
@@ -95,6 +53,10 @@
 
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<!--处理因使用内省API而导致的内存泄漏问题 -->
+	<listener>
+		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
 	</listener>
 	<servlet-mapping>
 		<servlet-name>dispatch</servlet-name>

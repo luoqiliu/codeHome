@@ -17,16 +17,12 @@
 	<mvc:annotation-driven />
 	<context:annotation-config />
 	<context:component-scan base-package="com.holydota" />
-
-	<bean
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix" value="/" />
-		<property name="suffix" value=".jsp" />
-	</bean>
-	<context:property-placeholder location="classpath*:*.properties,classpath*:*.conf" />
+	<context:property-placeholder
+		location="classpath*:*.properties,classpath*:*.conf" />
 	<bean id="localeResolver"
 		class="org.springframework.web.servlet.i18n.SessionLocaleResolver" />
-	<import resource="classpath*:services*.xml" />
+	<import resource="classpath:/config/spring/services*.xml" />
+	<import resource="classpath:/config/spring/spring*.xml" />
 	<import resource="classpath:/config/spring/ibatis-dao.xml" />
 
 </beans>
