@@ -10,6 +10,16 @@
 			<param name="ConversionPattern" value="%d-%p %t %c - %m%n" />
 		</layout>
 	</appender>
+	
+	<appender name="request" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="Encoding" value="UTF-8" />
+		<param name="File" value="${codeHome.log.dir}/codeHome-request.log" />
+		<param name="Append" value="true" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d-%p %t %c - %m%n" />
+		</layout>
+	</appender>
 
 	<appender name="codeHome" class="org.apache.log4j.DailyRollingFileAppender">
 		<param name="Encoding" value="UTF-8" />
@@ -22,9 +32,29 @@
 	</appender>
 
 
-	<appender name="errorLogger" class="org.apache.log4j.DailyRollingFileAppender">
+	<appender name="error" class="org.apache.log4j.DailyRollingFileAppender">
 		<param name="Encoding" value="UTF-8" />
 		<param name="File" value="${codeHome.log.dir}/codeHome-error.log" />
+		<param name="Append" value="true" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d-%p %t %c - %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="auth" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="Encoding" value="UTF-8" />
+		<param name="File" value="${codeHome.log.dir}/codeHome-auth.log" />
+		<param name="Append" value="true" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d-%p %t %c - %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="count" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="Encoding" value="UTF-8" />
+		<param name="File" value="${codeHome.log.dir}/codeHome-count.log" />
 		<param name="Append" value="true" />
 		<param name="DatePattern" value="'.'yyyy-MM-dd" />
 		<layout class="org.apache.log4j.PatternLayout">
@@ -49,7 +79,22 @@
 
 	<logger name="errorLogger" additivity="false">
 		<level value="ERROR" />
-		<appender-ref ref="errorLogger" />
+		<appender-ref ref="error" />
+	</logger>
+
+	<logger name="authLogger" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="auth" />
+	</logger>
+
+	<logger name="countLogger" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="count" />
+	</logger>
+
+	<logger name="requestLogger" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="request" />
 	</logger>
 
 	<root>

@@ -16,6 +16,7 @@ import org.apache.commons.lang.math.NumberUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
@@ -23,6 +24,8 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+import com.holydota.common.interceptor.auth.AuthPassport;
+import com.holydota.common.interceptor.count.CountTime;
 
 @Controller
 @RequestMapping("/tools")
@@ -37,6 +40,9 @@ public class QrCodeController {
     //二维码背景色  
     private static final int     WHITE          = 0xFFFFFFFF;
 
+    @CountTime(maxMilles = 3)
+    @AuthPassport
+    @ResponseBody
     @RequestMapping(value = "/qrcode", method = RequestMethod.GET)
     public void qr(HttpServletRequest request, HttpServletResponse response) {
         if (request == null) {

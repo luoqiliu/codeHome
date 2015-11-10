@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.holydota.bean.user.UserInfo;
 import com.holydota.common.interceptor.auth.AuthPassport;
+import com.holydota.common.interceptor.count.CountTime;
 import com.holydota.common.log.ILog;
 import com.holydota.common.log.LogFactory;
 import com.holydota.service.UserService;
@@ -27,6 +28,7 @@ public class UserController {
     UserService  userService;
     private ILog logger = LogFactory.getLog(UserController.class);
 
+    @CountTime(maxMilles = 3)
     @AuthPassport
     @ResponseBody
     @RequestMapping(value = "/getUser", method = RequestMethod.GET)
