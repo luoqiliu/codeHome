@@ -12,6 +12,10 @@ public class CodecUtil {
 
     private Sha1                      sha1   = new Sha1();
 
+    //私有构造方法,保证单例不被破坏
+    private CodecUtil() {
+    }
+
     public static CodecUtil getInstance() {
         if (instanse == null) {
             synchronized (CodecUtil.class) {
@@ -36,6 +40,9 @@ public class CodecUtil {
     }
 
     public static class Base64 {
+        private Base64() {
+        }
+
         public String encodeStr(String plainText) {
             byte[] b = org.apache.commons.codec.binary.Base64.encodeBase64(plainText.getBytes(), true);
             String s = new String(b);
@@ -50,6 +57,10 @@ public class CodecUtil {
     }
 
     public static class Md5 {
+        private Md5() {
+
+        }
+
         public String encodeStr(String plainText) {
             String s = DigestUtils.md5Hex(plainText);
             return s;
@@ -57,6 +68,10 @@ public class CodecUtil {
     }
 
     public static class Sha1 {
+        private Sha1() {
+
+        }
+
         public String encodeStr(String plainText) {
             String s = DigestUtils.sha1Hex(plainText);
             return s;
