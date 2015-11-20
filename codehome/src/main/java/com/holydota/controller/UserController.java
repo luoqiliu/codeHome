@@ -19,14 +19,17 @@ import com.holydota.common.interceptor.auth.AuthPassport;
 import com.holydota.common.interceptor.count.CountTime;
 import com.holydota.common.log.ILog;
 import com.holydota.common.log.LogFactory;
+import com.holydota.common.util.LocalSettingKeys;
+import com.holydota.common.util.LocalSettings;
 import com.holydota.service.UserService;
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
     @Autowired
-    UserService  userService;
-    private ILog logger = LogFactory.getLog(UserController.class);
+    UserService                 userService;
+    private ILog                logger = LogFactory.getLog(UserController.class);
+    private static final String TEST   = LocalSettings.getProperty(LocalSettingKeys.CODEHOME_TEST_KEY);
 
     @CountTime(maxMilles = 3)
     @AuthPassport
@@ -39,8 +42,8 @@ public class UserController {
     @ResponseBody
     @RequestMapping("name")
     public String getName(String name) {
-        logger.info("name:" + name);
-        return name;
+        logger.info("name:" + name + TEST);
+        return name + TEST;
 
     }
 
