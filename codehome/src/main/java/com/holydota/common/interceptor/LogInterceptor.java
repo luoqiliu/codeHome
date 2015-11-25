@@ -6,10 +6,10 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.holydota.common.log.ILog;
 import com.holydota.common.log.LogFactory;
 import com.holydota.common.util.CodecUtil;
@@ -42,5 +42,4 @@ public class LogInterceptor implements HandlerInterceptor {
         String sign = (String) request.getAttribute("sign");
         logger.info("finish request! sign=[" + sign + "]");
     }
-
 }

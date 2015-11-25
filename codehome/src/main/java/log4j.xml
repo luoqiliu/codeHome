@@ -10,7 +10,7 @@
 			<param name="ConversionPattern" value="%d-%p %t %c - %m%n" />
 		</layout>
 	</appender>
-	
+
 	<appender name="request" class="org.apache.log4j.DailyRollingFileAppender">
 		<param name="Encoding" value="UTF-8" />
 		<param name="File" value="${codeHome.log.dir}/codeHome-request.log" />
@@ -52,6 +52,16 @@
 		</layout>
 	</appender>
 
+	<appender name="aio" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="Encoding" value="UTF-8" />
+		<param name="File" value="${codeHome.log.dir}/codeHome-aio.log" />
+		<param name="Append" value="true" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d-%p %t %c - %m%n" />
+		</layout>
+	</appender>
+
 	<appender name="count" class="org.apache.log4j.DailyRollingFileAppender">
 		<param name="Encoding" value="UTF-8" />
 		<param name="File" value="${codeHome.log.dir}/codeHome-count.log" />
@@ -85,6 +95,11 @@
 	<logger name="authLogger" additivity="false">
 		<level value="INFO" />
 		<appender-ref ref="auth" />
+	</logger>
+
+	<logger name="aioLogger" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="aio" />
 	</logger>
 
 	<logger name="countLogger" additivity="false">
