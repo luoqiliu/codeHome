@@ -4,7 +4,6 @@ import java.lang.reflect.Constructor;
 
 public class LogFactory {
     private static Constructor<? extends ILog> logConstructor;
-    private static ThreadLocal<String>         flag = new ThreadLocal<String>();
     static {
         tryImplementation(new Runnable() {
             public void run() {
@@ -80,31 +79,4 @@ public class LogFactory {
         }
     }
 
-    /**
-     * Setter method for property <tt>flag</tt>.
-     * 
-     * @param flag
-     *            value to be assigned to property flag
-     */
-    public static void setFlag(String value) {
-        flag.set(value);
-    }
-
-    /**
-     * get method for property <tt>flag</tt>.
-     * 
-     * @param flag
-     *            value to be get
-     */
-    public static String getFlag() {
-        return flag.get();
-    }
-
-    public static void removeFlag() {
-        flag.remove();
-    }
-
-    public static String getUniqueFlag() {
-        return FlagGenerator.get().toStringBabble();
-    }
 }
