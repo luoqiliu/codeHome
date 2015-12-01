@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- 配置JSON视图 -->
+	<bean id="mappingJacksonHttpMessageConverter"
+		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<list>
+				<value>application/json;charset=UTF-8</value>
+				<value>text/html;charset=utf-8</value>
+			</list>
+		</property>
+		<property name="objectMapper">
+			<bean class="com.fasterxml.jackson.databind.ObjectMapper">
+				<property name="dateFormat">
+					<bean class="java.text.SimpleDateFormat">
+						<constructor-arg index="0" type="java.lang.String"
+							value="yyyy-MM-dd HH:mm:ss" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<bean id="stringHttpMessageConverter"
+		class="org.springframework.http.converter.StringHttpMessageConverter" />
+	<bean id="requestMappingHandlerAdapter"
+		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<ref bean="mappingJacksonHttpMessageConverter" />
+				<ref bean="stringHttpMessageConverter" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- 配置JSP视图 -->
+	<bean id="internalResourceViewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/view/" />
+		<property name="suffix" value=".jsp" />
+		<property name="contentType" value="text/html;charset=UTF-8" />
+		<property name="order" value="1" />
+	</bean>
+
+</beans>

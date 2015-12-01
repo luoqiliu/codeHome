@@ -311,27 +311,21 @@
 			<filter>src/main/config/${env}/${env}.properties</filter>
 		</filters>
 		<resources>
-			<resource>
-				<directory>src/main/java/config/spring</directory>
-				<filtering>false</filtering>
-				<includes>
-					<include>*.xml</include>
-				</includes>
-			</resource>
 			<!-- log4j不是spring加载的,所以需要在打包阶段就写入变量 -->
-			<resource>
-				<directory>src/main/java</directory>
-				<filtering>true</filtering>
-				<includes>
-					<include>log4j.xml</include>
-				</includes>
-			</resource>
 			<resource>
 				<directory>src/main/resources</directory>
 				<filtering>true</filtering>
 				<includes>
 					<include>*.properties</include>
 					<include>*.conf</include>
+					<include>log4j.xml</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>/spring/*.xml</include>
+					<include>/db/**/*.xml</include>
 				</includes>
 			</resource>
 		</resources>
